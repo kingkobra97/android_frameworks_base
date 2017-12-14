@@ -417,9 +417,9 @@ String8 AssetManager::getPkgName(const char *apkPath) {
         ap.type = kFileTypeRegular;
         ap.path = String8(apkPath);
 
-        ResXMLTree tree;
-
         Asset* manifestAsset = openNonAssetInPathLocked(kAndroidManifest, Asset::ACCESS_BUFFER, ap);
+        {
+        ResXMLTree tree;
         tree.setTo(manifestAsset->getBuffer(true),
                        manifestAsset->getLength());
         tree.restart();
@@ -438,7 +438,7 @@ String8 AssetManager::getPkgName(const char *apkPath) {
             pkgName = (str ? String8(str, len) : String8());
 
         }
-
+        }
         manifestAsset->close();
         return pkgName;
     }
